@@ -22,16 +22,18 @@ export const createReview = async (req, res,next) => {
         if(review) return next(createError(403, "You have already created a review for this gig"));
 
         const savedReview = await newReview.save();
-        await Gig.findByIdAndUpdate(req.body.gigId, {$inc: {stars: req.body.star, starNumber: 1}});
+        await Gig.findByIdAndUpdate(req.body.gigId, {
+          $inc: {totalStars: req.body.star, starNumber: 1},
+        });
         res.status(201).send(savedReview);
     
     } catch (error) {
-      next(error);  
+      next(createError(500, "Review creation failed"));  
     }
 }
 export const getReviews = async (req, res,next) => {
     try {
-        const reviews = await Review.find({gigId: req.params.gigId});
+        const reviews = await Review.find({gigId: req.params.id});
         res.status(200).send(reviews);
     } catch (error) {
       next(error);  
