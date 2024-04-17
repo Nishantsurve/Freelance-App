@@ -18,7 +18,7 @@ const Reviews = ({gigId}) => {
     <h2>Reviews</h2>
     <Review/>
 
-    { isLoading ? ("loading") :error ?( "Something error") : data.map(review =>
+    { isLoading ? ("loading") :error ?( "Something error") : data.map((review) =>
     <Review key={review._id} review={review} />)}
   </div>
   )
